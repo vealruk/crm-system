@@ -2,5 +2,21 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import messagePlugin from './utils/message.plugin'
+import localizePlugin from './utils/localize.plugin'
+import titlePlugin from './utils/title.plugin'
+import AppLoader from './components/app/AppLoader.vue'
+import Paginate from 'vuejs-paginate-next'
+import 'materialize-css/dist/css/materialize.min.css'
+import 'materialize-css/dist/js/materialize.min.js'
+import './index.css'
 
-createApp(App).use(store).use(router).mount('#app')
+createApp(App)
+  .component('AppLoader', AppLoader)
+  .component('paginate', Paginate)
+  .use(store)
+  .use(router)
+  .use(messagePlugin)
+  .use(localizePlugin)
+  .use(titlePlugin)
+  .mount('#app')
