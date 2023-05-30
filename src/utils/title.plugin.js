@@ -1,4 +1,3 @@
-// Не забыть про локализацию
 const titles = {
   home: 'Bill',
   history: 'History',

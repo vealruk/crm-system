@@ -28,6 +28,7 @@
         :next-text="$localize('Forward')"
         :container-class="'pagination'"
         :page-class="'waves-effect'"
+        v-if="records.length > 4"
       >
       </paginate>
     </section>
