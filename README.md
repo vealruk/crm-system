@@ -21,6 +21,9 @@
 * Axios
 * vue-chartjs
 
+## Превью
+
+https://vue-crm-b6459.web.app/
 
 ## Project setup
 ```
