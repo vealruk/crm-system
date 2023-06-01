@@ -15,11 +15,11 @@ export default {
 
 <style scoped lang="scss">
  .card {
+    padding: 20px;
+
     @media (min-width: 768px) {
       padding: 40px 110px;
     }
-
-    padding: 20px;
 
     &-title {
       color: #262626;

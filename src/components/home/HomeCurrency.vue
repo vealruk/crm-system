@@ -10,7 +10,7 @@
             <tr>
               <th>{{ $localize('Currency') }}</th>
               <th>{{ $localize('CurrencyType') }}</th>
-              <th>Дата</th>
+              <th>{{ $localize('Date') }}</th>
             </tr>
           </thead>
 

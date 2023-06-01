@@ -21,7 +21,7 @@
 
       <div class="input-field">
         <input id="name" type="text" v-model="name" :class="{ invalid: nError }" @input="nBlur">
-        <label for="name">Имя</label>
+        <label for="name">{{ $localize('Name') }}</label>
         <small class="helper-text invalid" v-if="nError">{{ $localize('RequiredName') }}</small>
       </div>
 
@@ -51,8 +51,8 @@
 </template>
 
 <script>
-import { inject } from 'vue'
 import useRegisterForm from '@/use/auth/register-form'
+import { inject } from 'vue'
 
 export default {
   setup () {

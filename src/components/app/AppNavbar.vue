@@ -18,13 +18,13 @@
           <ul id='dropdown' class='dropdown-content'>
             <li>
               <router-link to="/profile" href="#" class="black-text">
-                <i class="material-icons">account_circle</i>{{ localize('ProfileTitle') }}
+                <i class="material-icons">account_circle</i>{{ $localize('ProfileTitle') }}
               </router-link>
             </li>
             <li class="divider" tabindex="-1"></li>
             <li>
               <a href="#" class="black-text" @click.prevent="logout">
-                <i class="material-icons">assignment_return</i>{{ localize('Exit') }}
+                <i class="material-icons">assignment_return</i>{{ $localize('Exit') }}
               </a>
             </li>
           </ul>
@@ -35,15 +35,13 @@
 </template>
 
 <script>
-import { ref, onMounted, onBeforeUnmount, computed, inject } from 'vue'
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import dateFormatter from '@/utils/dateFormatter'
 
 export default {
   setup () {
-    const localize = inject('localize')
-
     const store = useStore()
     const router = useRouter()
 
@@ -81,8 +79,7 @@ export default {
       dropdown,
       logout,
       newDate: computed(() => dateFormatter(date.value, 'date-time')),
-      userName: computed(() => users.value?.name),
-      localize
+      userName: computed(() => users.value?.name)
     }
   }
 }

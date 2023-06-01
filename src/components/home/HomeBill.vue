@@ -26,8 +26,6 @@ export default {
 
     const { rates } = toRefs(props)
 
-    // let base = null
-
     const bill = computed(() => store.getters['users/info']).value.bill
 
     // eslint-disable-next-line
