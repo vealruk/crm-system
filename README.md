@@ -20,6 +20,8 @@
 * Lodash
 * Axios
 * vue-chartjs
+* FireBase Realtime DataBase
+* FireBase Authenticated
 
 ## Превью
 
