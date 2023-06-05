@@ -1,5 +1,5 @@
 import axios from '@/axios/requests'
-import store from '../index'
+import cookie from 'vue-cookies'
 
 export default {
   namespaced: true,
@@ -27,8 +27,8 @@ export default {
   actions: {
     async loadRecords ({ dispatch, commit }) {
       try {
-        const uid = await store.getters['auth/uid']
-        const token = await store.getters['auth/token']
+        const uid = cookie.get('uid')
+        const token = cookie.get('token')
         const fbUrl = `/users/${uid}/records.json?auth=${token}`
 
         const { data } = await axios.get(fbUrl)
@@ -44,8 +44,8 @@ export default {
     },
     async loadRecordById ({ dispatch }, id) {
       try {
-        const uid = await store.getters['auth/uid']
-        const token = await store.getters['auth/token']
+        const uid = cookie.get('uid')
+        const token = cookie.get('token')
         const fbUrl = `/users/${uid}/records/${id}.json?auth=${token}`
 
         const { data } = await axios.get(fbUrl)
@@ -60,8 +60,8 @@ export default {
 
     async createRecord ({ dispatch, commit }, payload) {
       try {
-        const uid = await store.getters['auth/uid']
-        const token = await store.getters['auth/token']
+        const uid = cookie.get('uid')
+        const token = cookie.get('token')
         const fbUrl = `/users/${uid}/records.json?auth=${token}`
 
         const { data } = await axios.post(fbUrl, payload)

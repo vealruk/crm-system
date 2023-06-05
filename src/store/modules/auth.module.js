@@ -1,58 +1,40 @@
 import axios from 'axios'
-
-const TOKEN_KEY = 'jwt-token'
+import cookie from 'vue-cookies'
 
 export default {
   namespaced: true,
-  state () {
-    return {
-      token: localStorage.getItem(TOKEN_KEY),
-      uid: localStorage.getItem('uid')
-    }
-  },
   getters: {
-    token (state) {
-      return state.token
-    },
-    uid (state) {
-      return state.uid
-    },
-    isAuthenticated (_, getters) {
-      return !!getters.token
+    isAuthenticated () {
+      return !!cookie.get('token')
     }
   },
   mutations: {
-    setToken (state, token) {
-      state.token = token
-      localStorage.setItem(TOKEN_KEY, token)
-    },
-    setUid (state, uid) {
-      state.uid = uid
-      localStorage.setItem('uid', uid)
-    },
-    logout (state, { commit }) {
-      state.token = null
-      state.uid = null
-      localStorage.removeItem(TOKEN_KEY)
-      localStorage.removeItem('uid')
-      // commit('users/clearInfo', '', { root: true })
-      // commit('users/clearCurrency', '', { root: true })
-    }
+    // logout (state, { commit }) {
+    // state.token = null
+    // state.uid = null
+    // localStorage.removeItem(TOKEN_KEY)
+    // localStorage.removeItem('uid')
+    // commit('users/clearInfo', '', { root: true })
+    // commit('users/clearCurrency', '', { root: true })
+    // }
   },
   actions: {
     logout ({ commit }) {
-      commit('logout', { commit })
+      // commit('logout', { commit })
+      cookie.remove('uid')
+      cookie.remove('token')
       commit('users/clearInfo', '', { root: true })
       commit('record/clearRecord', '', { root: true })
       commit('category/clearCategory', '', { root: true })
     },
+
     async login ({ dispatch, commit }, payload) {
       const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.VUE_APP_FB_KEY}`
 
       try {
         const { data } = await axios.post(url, { ...payload, returnSecureToken: true })
-        commit('setToken', data?.idToken)
-        commit('setUid', data?.localId)
+        cookie.set('uid', data.localId)
+        cookie.set('token', data.idToken)
         commit('clearMessage', null, { root: true })
       } catch (e) {
         dispatch('setMessage', e.response.data.error.message, { root: true })
@@ -64,8 +46,8 @@ export default {
 
       try {
         const { data } = await axios.post(url, { ...payload, returnSecureToken: true })
-        commit('setToken', data.idToken)
-        commit('setUid', data?.localId)
+        cookie.set('uid', data.localId)
+        cookie.set('token', data.idToken)
         commit('clearMessage', null, { root: true })
         await dispatch('users/setInfo', payload, { root: true })
       } catch (e) {

@@ -1,5 +1,5 @@
 import axios from '@/axios/requests'
-import store from '../index'
+import cookie from 'vue-cookies'
 
 export default {
   namespaced: true,
@@ -27,27 +27,29 @@ export default {
   actions: {
     async loadCategories ({ dispatch, commit }) {
       try {
-        const uid = store.getters['auth/uid']
-        const token = store.getters['auth/token']
+        const uid = cookie.get('uid')
+        const token = cookie.get('token')
+
         const fbUrl = `/users/${uid}/categories.json?auth=${token}`
 
         const { data } = await axios.get(fbUrl)
 
-        if (data) {
-          const categories = Object.keys(data).map(id => ({ ...data[id], id }))
-          commit('setCategories', categories)
-          return categories
-        } else {
+        if (!data) {
           return []
         }
+
+        const categories = Object.keys(data).map(id => ({ ...data[id], id }))
+        commit('setCategories', categories)
+        return categories
       } catch (e) {
         dispatch('setMessage', e.response.data.error.message, { root: true })
+        return []
       }
     },
     async loadCategoryById ({ dispatch }, id) {
       try {
-        const uid = store.getters['auth/uid']
-        const token = store.getters['auth/token']
+        const uid = cookie.get('uid')
+        const token = cookie.get('token')
         const fbUrl = `/users/${uid}/categories/${id}.json?auth=${token}`
 
         const { data } = await axios.get(fbUrl)
@@ -61,8 +63,8 @@ export default {
     },
     async createCategory ({ dispatch, commit }, payload) {
       try {
-        const uid = store.getters['auth/uid']
-        const token = store.getters['auth/token']
+        const uid = cookie.get('uid')
+        const token = cookie.get('token')
         const fbUrl = `/users/${uid}/categories.json?auth=${token}`
 
         const { data } = await axios.post(fbUrl, payload)
@@ -84,10 +86,10 @@ export default {
         dispatch('setMessage', e.response.data.error.message, { root: true })
       }
     },
-    async updateCategory ({ dispatch, commit }, payload) {
+    async updateCategory ({ dispatch }, payload) {
       try {
-        const uid = store.getters['auth/uid']
-        const token = store.getters['auth/token']
+        const uid = cookie.get('uid')
+        const token = cookie.get('token')
         const fbUrl = `/users/${uid}/categories/${payload.id}.json?auth=${token}`
 
         const { id, ...formData } = payload

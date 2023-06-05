@@ -1,6 +1,6 @@
-import axios from '@/axios/requests'
-import store from '../index'
 // import useFetch from '@/use/fetch'
+import axios from '@/axios/requests'
+import cookie from 'vue-cookies'
 
 export default {
   namespaced: true,
@@ -38,8 +38,8 @@ export default {
   actions: {
     async loadInfo ({ commit, dispatch }) {
       try {
-        const uid = await store.getters['auth/uid']
-        const token = await store.getters['auth/token']
+        const uid = cookie.get('uid')
+        const token = cookie.get('token')
         const fbUrl = `/users/${uid}/info.json?auth=${token}`
 
         const { data } = await axios.get(fbUrl)
@@ -51,8 +51,8 @@ export default {
 
     async setInfo ({ dispatch }, payload) {
       try {
-        const uid = await store.getters['auth/uid']
-        const token = await store.getters['auth/token']
+        const uid = cookie.get('uid')
+        const token = cookie.get('token')
         const fbUrl = `/users/${uid}/info.json?auth=${token}`
 
         await axios.put(fbUrl, {
@@ -67,11 +67,10 @@ export default {
 
     async updateInfo ({ dispatch, commit, getters }, payload) {
       try {
-        const uid = await store.getters['auth/uid']
-        const token = await store.getters['auth/token']
+        const uid = cookie.get('uid')
+        const token = cookie.get('token')
         const fbUrl = `/users/${uid}/info.json?auth=${token}`
 
-        // const updateData = { ...getters.info, bill: payload }
         const updateData = { ...getters.info, ...payload }
 
         await axios.put(fbUrl, updateData)
